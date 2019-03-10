@@ -1,3 +1,7 @@
+library(tidyverse)
+library("survival")
+library(xlsx)
+
 df <- readRDS(here::here('data', 'df.rds'))
 
 predictors <- c("v1_5", "v1_6", "v2_1_1", "v2_1_2", "v2_1_3", "v2_1_4", "age_group", "v2_5")
@@ -19,3 +23,21 @@ adj_tidy <- map(adjusted, ~broom::tidy(.x, exponentiate=TRUE)) %>%
 
 adj_glance <- map(adjusted, ~broom::glance(.x)) %>% 
   bind_rows(.id="id")
+# Save models in excel files
+# Crude models
+write.xlsx2(crude_tidy, here::here('crude_models.xlsx'), sheetName = 'all_models')
+crude_tidy %>% 
+  mutate(nested_var=id) %>% 
+  group_by(nested_var) %>% 
+  nest() %>% 
+  mutate(sheet_new = map(data, ~write.xlsx2(.x, here::here('crude_models.xlsx'), append= TRUE, sheetName =.x$id[[1]])))
+
+# Adjusted models
+write.xlsx2(adj_tidy, here::here('adj_models.xlsx'), sheetName = 'all_models')
+adj_tidy %>% 
+  mutate(nested_var=id) %>% 
+  group_by(nested_var) %>% 
+  nest() %>% 
+  mutate(sheet_new = map(data, ~write.xlsx2(.x, here::here('adj_models.xlsx'), append= TRUE, sheetName =.x$id[[1]])))
+
+

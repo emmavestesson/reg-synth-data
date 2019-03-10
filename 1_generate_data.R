@@ -1,5 +1,4 @@
 library(tidyverse)
-library("survival")
 library(rms)
 library(lubridate)
 library(tableone)
