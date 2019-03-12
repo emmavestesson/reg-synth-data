@@ -1,0 +1,6 @@
+install.package(tidyverse)
+install.package(rms)
+install.package(lubridate)
+install.package(tableone)
+install.package(simstudy)
+install.package(survival)
