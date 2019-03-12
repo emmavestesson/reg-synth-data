@@ -1,4 +1,6 @@
-install.package(tidyverse)
+install.package(dplyr)
+install.package(purrr)
+install.package(tidyr)
 install.package(rms)
 install.package(lubridate)
 install.package(tableone)
